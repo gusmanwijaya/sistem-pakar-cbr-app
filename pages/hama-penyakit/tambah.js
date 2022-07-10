@@ -1,10 +1,66 @@
 /* eslint-disable @next/next/no-img-element */
+import jwtDecode from "jwt-decode";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
+import { create } from "../../services/hama-penyakit";
 
 const Tambah = () => {
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    kode: "",
+    nama: "",
+    deskripsi: "",
+    foto: "",
+    imagePreview: "",
+  });
+
+  const handleUploadPhoto = (event) => {
+    const size = event?.target?.files[0]?.size;
+
+    if (size > 3000000) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Maksimal size file adalah 3 MB`,
+      });
+    } else {
+      setForm({
+        ...form,
+        foto: event.target.files[0],
+        imagePreview: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+  };
+
+  const handleSimpan = async () => {
+    const formData = new FormData();
+    formData.append("kode", form?.kode);
+    formData.append("nama", form?.nama);
+    formData.append("deskripsi", form?.deskripsi);
+    formData.append("foto", form?.foto);
+
+    const response = await create(formData);
+    if (response?.data?.statusCode === 201) {
+      router.push("/hama-penyakit");
+      Swal.fire({
+        icon: "success",
+        title: "Sukses",
+        text: `${response?.data?.message || "Berhasil menambahkan data!"}`,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${response?.data?.message || "Nampaknya terjadi kesalahan!"}`,
+      });
+    }
+  };
+
   return (
     <Content title="Tambah">
       <div className="container pb-6">
@@ -39,6 +95,9 @@ const Tambah = () => {
                   name="kode"
                   type="text"
                   className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                  onChange={(event) =>
+                    setForm({ ...form, kode: event.target.value })
+                  }
                 />
               </div>
               <div className="mb-4">
@@ -52,6 +111,9 @@ const Tambah = () => {
                   name="nama"
                   type="text"
                   className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                  onChange={(event) =>
+                    setForm({ ...form, nama: event.target.value })
+                  }
                 />
               </div>
               <div className="mb-4">
@@ -64,16 +126,21 @@ const Tambah = () => {
                 <textarea
                   name="deskripsi"
                   className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                  onChange={(event) =>
+                    setForm({ ...form, deskripsi: event.target.value })
+                  }
                 />
               </div>
               <div className="mb-4">
-                <div className="flex justify-center mb-4">
-                  <img
-                    src="/assets/img/empty.svg"
-                    alt="Preview"
-                    className="w-1/2 h-1/2 object-cover rounded-3xl"
-                  />
-                </div>
+                {form?.imagePreview !== "" && (
+                  <div className="flex justify-center mb-4">
+                    <img
+                      src={form?.imagePreview}
+                      alt="Preview"
+                      className="w-1/2 h-1/2 object-cover rounded-3xl"
+                    />
+                  </div>
+                )}
                 <label className="flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-slate-300 group">
                   <div className="flex flex-col items-center justify-center pt-7">
                     <svg
@@ -94,12 +161,18 @@ const Tambah = () => {
                       Pilih foto
                     </p>
                   </div>
-                  <input type="file" accept="image/*" className="hidden" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(event) => handleUploadPhoto(event)}
+                  />
                 </label>
               </div>
               <div className="text-center">
                 <button
                   type="button"
+                  onClick={handleSimpan}
                   className="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white"
                 >
                   Tambah
@@ -115,3 +188,27 @@ const Tambah = () => {
 };
 
 export default Tambah;
+
+export async function getServerSideProps({ req }) {
+  const { token } = req.cookies;
+  if (!token)
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+
+  const users = jwtDecode(token);
+  if (users?.role !== "pakar")
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {},
+  };
+}

@@ -14,8 +14,31 @@ export default function SignIn() {
     password: "",
   });
 
-  const handleMasuk = () => {
-    console.log(form);
+  const handleMasuk = async () => {
+    if (form?.email !== "" && form?.password !== "") {
+      const response = await login(form);
+      if (response?.data?.statusCode === 200) {
+        Cookies.set("token", response?.data?.data?.token);
+        router.push("/dashboard");
+        Swal.fire({
+          icon: "success",
+          title: "Sukses",
+          text: `${response?.data?.message || "Berhasil login!"}`,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${response?.data?.message || "Nampaknya terjadi kesalahan!"}`,
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Silahkan isi email dan password Anda.",
+      });
+    }
   };
 
   return (
@@ -119,4 +142,19 @@ export default function SignIn() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = req.cookies;
+  if (token)
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {},
+  };
 }

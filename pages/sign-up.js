@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Footer from "../components/Footer";
 import { useRouter } from "next/router";
+import { register } from "../services/auth";
+import Swal from "sweetalert2";
 
 export default function SignUp() {
   const router = useRouter();
+
+  const [form, setForm] = useState({
+    nama: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSimpan = async () => {
+    if (form?.nama !== "" && form?.email !== "" && form?.password !== "") {
+      const response = await register(form);
+      if (response?.data?.statusCode === 201) {
+        router.push("/");
+        Swal.fire({
+          icon: "success",
+          title: "Sukses",
+          text: `${response?.data?.message || "Berhasil daftar!"}`,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${response?.data?.message || "Nampaknya terjadi kesalahan!"}`,
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Silahkan isi nama, email, dan password Anda.",
+      });
+    }
+  };
 
   return (
     <>
@@ -51,6 +85,9 @@ export default function SignUp() {
                             type="text"
                             className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                             placeholder="Nama"
+                            onChange={(event) =>
+                              setForm({ ...form, nama: event.target.value })
+                            }
                           />
                         </div>
                         <div className="mb-4">
@@ -59,6 +96,9 @@ export default function SignUp() {
                             type="email"
                             className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                             placeholder="Email"
+                            onChange={(event) =>
+                              setForm({ ...form, email: event.target.value })
+                            }
                           />
                         </div>
                         <div className="mb-4">
@@ -67,10 +107,14 @@ export default function SignUp() {
                             type="password"
                             className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                             placeholder="Password"
+                            onChange={(event) =>
+                              setForm({ ...form, password: event.target.value })
+                            }
                           />
                         </div>
                         <div className="text-center">
                           <button
+                            onClick={handleSimpan}
                             type="button"
                             className="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white"
                           >

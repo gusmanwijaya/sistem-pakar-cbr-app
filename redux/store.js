@@ -7,6 +7,7 @@ import hamaPenyakitReducers from "./hama-penyakit/reducers";
 import basisPengetahuanReducers from "./basis-pengetahuan/reducers";
 import gejalaReducers from "./gejala/reducers";
 import solusiReducers from "./solusi/reducers";
+import penggunaReducers from "./pengguna/reducers";
 
 let store;
 
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   basisPengetahuanReducers,
   gejalaReducers,
   solusiReducers,
+  penggunaReducers,
 });
 
 function initStore(initialState) {
