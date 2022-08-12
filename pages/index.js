@@ -19,7 +19,7 @@ export default function SignIn() {
       const response = await login(form);
       if (response?.data?.statusCode === 200) {
         Cookies.set("token", response?.data?.data?.token);
-        router.push("/dashboard");
+        router.replace("/dashboard");
         Swal.fire({
           icon: "success",
           title: "Sukses",
@@ -113,7 +113,7 @@ export default function SignIn() {
                         <p className="mx-auto mb-6 leading-normal text-size-sm">
                           Tidak punya akun?{" "}
                           <button
-                            onClick={() => router.push("/sign-up")}
+                            onClick={() => router.replace("/sign-up")}
                             type="button"
                             className="relative z-10 font-semibold text-transparent bg-gradient-cyan bg-clip-text"
                           >

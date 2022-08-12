@@ -30,8 +30,11 @@ const Sidebar = () => {
   }, []);
 
   const handleSignOut = () => {
+    Cookies.remove("process");
     Cookies.remove("token");
-    router.push("/");
+    localStorage.clear();
+    sessionStorage.clear();
+    router.replace("/");
   };
 
   return (
@@ -62,7 +65,7 @@ const Sidebar = () => {
                   : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
               }
               type="button"
-              onClick={() => router.push("/dashboard")}
+              onClick={() => router.replace("/dashboard")}
             >
               <div
                 className={
@@ -130,7 +133,7 @@ const Sidebar = () => {
                       : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                   }
                   type="button"
-                  onClick={() => router.push("/hama-penyakit")}
+                  onClick={() => router.replace("/hama-penyakit")}
                 >
                   <div
                     className={
@@ -196,7 +199,7 @@ const Sidebar = () => {
                       : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                   }
                   type="button"
-                  onClick={() => router.push("/gejala")}
+                  onClick={() => router.replace("/gejala")}
                 >
                   <div
                     className={
@@ -262,7 +265,7 @@ const Sidebar = () => {
                       : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                   }
                   type="button"
-                  onClick={() => router.push("/solusi")}
+                  onClick={() => router.replace("/solusi")}
                 >
                   <div
                     className={
@@ -336,7 +339,7 @@ const Sidebar = () => {
                       : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                   }
                   type="button"
-                  onClick={() => router.push("/basis-pengetahuan")}
+                  onClick={() => router.replace("/basis-pengetahuan")}
                 >
                   <div
                     className={
@@ -412,7 +415,7 @@ const Sidebar = () => {
                   : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
               }
               type="button"
-              onClick={() => router.push("/identifikasi")}
+              onClick={() => router.replace("/identifikasi")}
             >
               <div
                 className={
@@ -443,16 +446,16 @@ const Sidebar = () => {
           <li className="mt-0.5 w-full">
             <a
               className={
-                router.pathname === "/hasil-identifikasi"
+                router.pathname === "/riwayat-identifikasi"
                   ? "py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors cursor-pointer"
                   : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
               }
               type="button"
-              onClick={() => router.push("/hasil-identifikasi")}
+              onClick={() => router.replace("/riwayat-identifikasi")}
             >
               <div
                 className={
-                  router.pathname === "/hasil-identifikasi"
+                  router.pathname === "/riwayat-identifikasi"
                     ? "bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
                     : "shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
                 }
@@ -462,7 +465,7 @@ const Sidebar = () => {
                   className="h-5 w-5"
                   viewBox="0 0 20 20"
                   fill={
-                    router.pathname === "/hasil-identifikasi"
+                    router.pathname === "/riwayat-identifikasi"
                       ? "#FFFFFF"
                       : "currentColor"
                   }
@@ -476,7 +479,7 @@ const Sidebar = () => {
                 </svg>
               </div>
               <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
-                Hasil Identifikasi
+                Riwayat Identifikasi
               </span>
             </a>
           </li>
@@ -496,7 +499,7 @@ const Sidebar = () => {
                     : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                 }
                 type="button"
-                onClick={() => router.push("/pengguna")}
+                onClick={() => router.replace("/pengguna")}
               >
                 <div
                   className={
@@ -532,7 +535,7 @@ const Sidebar = () => {
                   ? "py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors cursor-pointer"
                   : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
               }
-              onClick={() => router.push("/ganti-password")}
+              onClick={() => router.replace("/ganti-password")}
             >
               <div
                 className={

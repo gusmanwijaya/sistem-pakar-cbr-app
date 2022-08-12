@@ -18,7 +18,7 @@ export default function SignUp() {
     if (form?.nama !== "" && form?.email !== "" && form?.password !== "") {
       const response = await register(form);
       if (response?.data?.statusCode === 201) {
-        router.push("/");
+        router.replace("/");
         Swal.fire({
           icon: "success",
           title: "Sukses",
@@ -126,7 +126,7 @@ export default function SignUp() {
                           <button
                             type="button"
                             className="font-bold text-slate-700"
-                            onClick={() => router.push("/")}
+                            onClick={() => router.replace("/")}
                           >
                             Masuk
                           </button>
