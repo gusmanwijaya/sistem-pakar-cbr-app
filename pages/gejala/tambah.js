@@ -29,20 +29,30 @@ const Tambah = ({ dataGejala }) => {
 
   const handleSimpan = async () => {
     if (form?.kode !== "" && form?.nama !== "" && form?.bobot !== 0) {
-      const response = await create(form);
-      if (response?.data?.statusCode === 201) {
-        router.replace("/gejala");
-        Swal.fire({
-          icon: "success",
-          title: "Sukses",
-          text: `${response?.data?.message || "Berhasil menambahkan data!"}`,
-        });
-      } else {
+      if (form?.bobot < 1 || form?.bobot > 5) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: `${response?.data?.message || "Nampaknya terjadi kesalahan!"}`,
+          text: `Silahkan masukkan nilai bobot antara 1-5.`,
         });
+      } else {
+        const response = await create(form);
+        if (response?.data?.statusCode === 201) {
+          router.replace("/gejala");
+          Swal.fire({
+            icon: "success",
+            title: "Sukses",
+            text: `${response?.data?.message || "Berhasil menambahkan data!"}`,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${
+              response?.data?.message || "Nampaknya terjadi kesalahan!"
+            }`,
+          });
+        }
       }
     } else {
       Swal.fire({

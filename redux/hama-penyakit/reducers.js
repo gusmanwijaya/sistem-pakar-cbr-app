@@ -8,7 +8,7 @@ import {
 const initialState = {
   keyword: "",
   page: 1,
-  limit: 10,
+  limit: 8,
   total_page: 1,
   allData: [],
   error: {},

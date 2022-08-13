@@ -43,7 +43,7 @@ const fetchAllHamaPenyakit = () => {
     const params = {
       keyword: getState().hamaPenyakitReducers.keyword || "",
       page: getState().hamaPenyakitReducers?.page || 1,
-      limit: getState().hamaPenyakitReducers?.limit || 10,
+      limit: getState().hamaPenyakitReducers?.limit || 8,
     };
 
     const response = await debouncedGetAll(
