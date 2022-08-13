@@ -443,47 +443,6 @@ const Sidebar = () => {
             </a>
           </li>
 
-          <li className="mt-0.5 w-full">
-            <a
-              className={
-                router.pathname === "/riwayat-identifikasi"
-                  ? "py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors cursor-pointer"
-                  : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
-              }
-              type="button"
-              onClick={() => router.replace("/riwayat-identifikasi")}
-            >
-              <div
-                className={
-                  router.pathname === "/riwayat-identifikasi"
-                    ? "bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
-                    : "shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
-                }
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill={
-                    router.pathname === "/riwayat-identifikasi"
-                      ? "#FFFFFF"
-                      : "currentColor"
-                  }
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                  />
-                  <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-                </svg>
-              </div>
-              <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
-                Riwayat Identifikasi
-              </span>
-            </a>
-          </li>
-
           <li className="w-full mt-4">
             <h6 className="pl-6 ml-2 font-bold leading-tight uppercase text-size-xs opacity-60">
               Pengaturan

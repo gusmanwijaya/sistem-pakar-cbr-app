@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../Sidebar";
 
-const Content = ({ title, children }) => {
+const Content = ({ children }) => {
   return (
     <>
       <div className="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">

@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import jwtDecode from "jwt-decode";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Content from "../components/Content";
 import Footer from "../components/Footer";
@@ -13,8 +13,11 @@ const HasilIdentifikasi = () => {
     selectedGejala: [],
     allPenyakitnGejala: [],
     processData: [],
+    detailPenyakit: {},
   });
   const [toggleHasilPerhitungan, setToggleHasilPerhitungan] = useState(false);
+  const API_IMAGE = process.env.NEXT_PUBLIC_API_IMAGE;
+  const directory = "hama-penyakit";
 
   useEffect(() => {
     if (payload?._id === "") {
@@ -27,6 +30,7 @@ const HasilIdentifikasi = () => {
         selectedGejala: dataLocal?.selectedGejala,
         allPenyakitnGejala: dataLocal?.allPenyakitnGejala,
         processData: dataLocal?.processData,
+        detailPenyakit: dataLocal?.detailPenyakit,
       });
     }
   }, [payload]);
@@ -76,6 +80,32 @@ const HasilIdentifikasi = () => {
                 {payload?.processData.length > 0 &&
                   payload?.processData[0]?.similarityPersen}
               </span>
+            </div>
+            <div className="mt-2 mb-4 text-sm text-blue-900">
+              {payload?.detailPenyakit?.foto && (
+                <div>
+                  Berikut gambar dari penyakit{" "}
+                  {payload?.processData[0]?.hamaPenyakit}{" "}
+                  <img
+                    src={`${API_IMAGE}/${directory}/${payload?.detailPenyakit?.foto}`}
+                    alt="Detail Penyakit"
+                    className="object-cover my-3 rounded-xl w-44 h-w-44"
+                  />
+                </div>
+              )}
+              <div>
+                Solusinya adalah sebagai berikut : <br /> <br />
+                {Object.keys(payload?.detailPenyakit).length > 0 &&
+                  payload?.detailPenyakit?.solusi.map((value, index) => (
+                    <div key={index}>
+                      <span className="font-bold uppercase">
+                        {index + 1}. {value?.solusi}
+                        <br />
+                        <br />
+                      </span>
+                    </div>
+                  ))}
+              </div>
             </div>
             <div className="flex justify-between">
               <button
@@ -228,14 +258,9 @@ const HasilIdentifikasi = () => {
                         <td className="py-4 px-6 font-medium text-gray-900 max-w-xl dark:text-white">
                           {value?.gejala.length > 0 &&
                             value?.gejala.map((valGejala, indexValGejala) => (
-                              <tr
-                                key={indexValGejala}
-                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                              >
-                                <td className="py-4 font-medium text-gray-900 max-w-xl dark:text-white">
-                                  {valGejala?.nama}
-                                </td>
-                              </tr>
+                              <p key={indexValGejala} className="border-b">
+                                {valGejala?.nama}
+                              </p>
                             ))}
                         </td>
                       </tr>
