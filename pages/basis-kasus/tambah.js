@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
-import { create } from "../../services/basis-pengetahuan";
+import { create } from "../../services/basis-kasus";
 import { MultiSelect } from "react-multi-select-component";
 import { getForSelect as getForSelectHamaPenyakit } from "../../services/hama-penyakit";
 import { getForSelect as getForSelectGejala } from "../../services/gejala";
@@ -55,7 +55,7 @@ const Tambah = ({ dataHamaPenyakit, dataGejala }) => {
     if (form?.hamaPenyakit !== "" && form?.gejala !== "[]") {
       const response = await create(form);
       if (response?.data?.statusCode === 201) {
-        router.replace("/basis-pengetahuan");
+        router.replace("/basis-kasus");
         Swal.fire({
           icon: "success",
           title: "Sukses",
@@ -81,14 +81,14 @@ const Tambah = ({ dataHamaPenyakit, dataGejala }) => {
     <>
       <Head>
         <title>
-          Tambah Basis Pengetahuan - Sistem Pakar Identifikasi Tanaman Kakao
+          Tambah Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao
           Menggunakan Metode CBR dan KNN
         </title>
       </Head>
       <Content>
         <div className="container pb-6">
           <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
-            <Link href="/basis-pengetahuan">
+            <Link href="/basis-kasus">
               <button type="button" className="my-4 mx-2 space-x-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

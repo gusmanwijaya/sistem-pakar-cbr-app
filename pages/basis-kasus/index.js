@@ -9,18 +9,15 @@ import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
 import Pagination from "../../components/Pagination";
-import {
-  fetchAllBasisPengetahuan,
-  setPage,
-} from "../../redux/basis-pengetahuan/actions";
-import { destroy } from "../../services/basis-pengetahuan";
+import { fetchAllBasisKasus, setPage } from "../../redux/basis-kasus/actions";
+import { destroy } from "../../services/basis-kasus";
 
-const BasisPengetahuan = () => {
+const BasisKasus = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { allData, page, total_page } = useSelector(
-    (state) => state.basisPengetahuanReducers
+    (state) => state.basisKasusReducers
   );
 
   const handlePrevious = () => {
@@ -50,7 +47,7 @@ const BasisPengetahuan = () => {
             title: "Sukses",
             text: `${response?.data?.message || "Berhasil menghapus data!"}`,
           });
-          dispatch(fetchAllBasisPengetahuan());
+          dispatch(fetchAllBasisKasus());
         } else {
           Swal.fire({
             icon: "error",
@@ -65,15 +62,15 @@ const BasisPengetahuan = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchAllBasisPengetahuan());
+    dispatch(fetchAllBasisKasus());
   }, [dispatch, page]);
 
   return (
     <>
       <Head>
         <title>
-          Basis Pengetahuan - Sistem Pakar Identifikasi Tanaman Kakao
-          Menggunakan Metode CBR dan KNN
+          Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
+          Metode CBR dan KNN
         </title>
       </Head>
       <Content>
@@ -82,7 +79,7 @@ const BasisPengetahuan = () => {
             <>
               <div className="flex justify-end items-center px-4 mb-4">
                 <button
-                  onClick={() => router.replace("/basis-pengetahuan/tambah")}
+                  onClick={() => router.replace("/basis-kasus/tambah")}
                   type="button"
                   className="inline-block px-6 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs hover:scale-102 active:shadow-soft-xs tracking-tight-soft border-sky-500 text-sky-500 hover:border-sky-500 hover:bg-transparent hover:text-sky-500 hover:opacity-75 hover:shadow-none active:bg-sky-500 active:text-white active:hover:bg-transparent active:hover:text-sky-500"
                 >
@@ -135,7 +132,7 @@ const BasisPengetahuan = () => {
                                     <button
                                       onClick={() =>
                                         router.replace(
-                                          `/basis-pengetahuan/${value?._id}/detail`
+                                          `/basis-kasus/${value?._id}/detail`
                                         )
                                       }
                                       type="button"
@@ -164,7 +161,7 @@ const BasisPengetahuan = () => {
                                     <button
                                       onClick={() =>
                                         router.replace(
-                                          `/basis-pengetahuan/${value?._id}/ubah`
+                                          `/basis-kasus/${value?._id}/ubah`
                                         )
                                       }
                                       type="button"
@@ -237,7 +234,7 @@ const BasisPengetahuan = () => {
                 Oops, nampaknya data masih kosong!
               </p>
               <button
-                onClick={() => router.replace("/basis-pengetahuan/tambah")}
+                onClick={() => router.replace("/basis-kasus/tambah")}
                 type="button"
                 className="inline-block px-6 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs hover:scale-102 active:shadow-soft-xs tracking-tight-soft border-sky-500 text-sky-500 hover:border-sky-500 hover:bg-transparent hover:text-sky-500 hover:opacity-75 hover:shadow-none active:bg-sky-500 active:text-white active:hover:bg-transparent active:hover:text-sky-500"
               >
@@ -252,7 +249,7 @@ const BasisPengetahuan = () => {
   );
 };
 
-export default BasisPengetahuan;
+export default BasisKasus;
 
 export async function getServerSideProps({ req }) {
   const { token } = req.cookies;

@@ -4,21 +4,23 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 
 import hamaPenyakitReducers from "./hama-penyakit/reducers";
-import basisPengetahuanReducers from "./basis-pengetahuan/reducers";
+import basisKasusReducers from "./basis-kasus/reducers";
 import gejalaReducers from "./gejala/reducers";
 import solusiReducers from "./solusi/reducers";
 import penggunaReducers from "./pengguna/reducers";
 import identifikasiReducers from "./identifikasi/reducers";
+import informasiReducers from "./informasi/reducers";
 
 let store;
 
 const reducers = combineReducers({
   hamaPenyakitReducers,
-  basisPengetahuanReducers,
+  basisKasusReducers,
   gejalaReducers,
   solusiReducers,
   penggunaReducers,
   identifikasiReducers,
+  informasiReducers,
 });
 
 function initStore(initialState) {

@@ -8,7 +8,7 @@ import { MultiSelect } from "react-multi-select-component";
 import Swal from "sweetalert2";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
-import { getOne, update } from "../../../services/basis-pengetahuan";
+import { getOne, update } from "../../../services/basis-kasus";
 import { getForSelect as getForSelectHamaPenyakit } from "../../../services/hama-penyakit";
 import { getForSelect as getForSelectGejala } from "../../../services/gejala";
 import Head from "next/head";
@@ -24,7 +24,7 @@ const Ubah = ({ oneData, params, dataHamaPenyakit, dataGejala }) => {
   const handleSimpan = async () => {
     const response = await update(params?.id, form);
     if (response?.data?.statusCode === 200) {
-      router.replace("/basis-pengetahuan");
+      router.replace("/basis-kasus");
       Swal.fire({
         icon: "success",
         title: "Sukses",
@@ -124,14 +124,14 @@ const Ubah = ({ oneData, params, dataHamaPenyakit, dataGejala }) => {
     <>
       <Head>
         <title>
-          Ubah Basis Pengetahuan - Sistem Pakar Identifikasi Tanaman Kakao
-          Menggunakan Metode CBR dan KNN
+          Ubah Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
+          Metode CBR dan KNN
         </title>
       </Head>
       <Content>
         <div className="container pb-6">
           <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
-            <Link href="/basis-pengetahuan">
+            <Link href="/basis-kasus">
               <button type="button" className="my-4 mx-2 space-x-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

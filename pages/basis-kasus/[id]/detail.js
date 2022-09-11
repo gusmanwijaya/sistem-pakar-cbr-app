@@ -4,20 +4,20 @@ import Link from "next/link";
 import React from "react";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
-import { getOne } from "../../../services/basis-pengetahuan";
+import { getOne } from "../../../services/basis-kasus";
 
 const Detail = ({ oneData }) => {
   return (
     <>
       <Head>
         <title>
-          Detail Basis Pengetahuan - Sistem Pakar Identifikasi Tanaman Kakao
+          Detail Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao
           Menggunakan Metode CBR dan KNN
         </title>
       </Head>
       <Content>
         <div className="px-10 pb-6 mx-auto">
-          <Link href="/basis-pengetahuan">
+          <Link href="/basis-kasus">
             <button type="button" className="mt-4 mx-2 space-x-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

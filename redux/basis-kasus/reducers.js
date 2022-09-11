@@ -1,8 +1,4 @@
-import {
-  GET_ALL_BASIS_PENGETAHUAN,
-  ERROR_BASIS_PENGETAHUAN,
-  SET_PAGE,
-} from "./types";
+import { GET_ALL_BASIS_KASUS, ERROR_BASIS_KASUS, SET_PAGE } from "./types";
 
 const initialState = {
   page: 1,
@@ -14,14 +10,14 @@ const initialState = {
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_BASIS_PENGETAHUAN:
+    case GET_ALL_BASIS_KASUS:
       return {
         ...state,
         allData: action.allData,
         total_page: action.total_page,
       };
 
-    case ERROR_BASIS_PENGETAHUAN:
+    case ERROR_BASIS_KASUS:
       return {
         ...state,
         error: action.error,

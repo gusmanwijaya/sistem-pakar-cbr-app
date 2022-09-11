@@ -106,6 +106,167 @@ const RiwayatIdentifikasiDetail = ({ payload }) => {
             </div>
           </div>
 
+          {payload?.selectedGejala.length > 0 && (
+            <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
+                  Gejala Yang Dipilih
+                </caption>
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="py-3 px-6">
+                      No
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Kode
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Nama Gejala
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payload?.selectedGejala.map((value, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {index + 1}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {value?.kode}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 max-w-md dark:text-white">
+                        {value?.nama}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {payload?.allPenyakitnGejala.length > 0 && (
+            <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
+                  Basis Kasus
+                </caption>
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="py-3 px-6">
+                      No
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Penyakit
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Gejala
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payload?.allPenyakitnGejala.map((value, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
+                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white align-text-top">
+                        {index + 1}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white align-text-top">
+                        {value?.hamaPenyakit?.nama}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 max-w-xl dark:text-white">
+                        {value?.gejala.length > 0 &&
+                          value?.gejala.map((valGejala, indexValGejala) => (
+                            <p key={indexValGejala} className="border-b">
+                              {valGejala?.nama}
+                            </p>
+                          ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {payload?.allPenyakitnGejala.length > 0 && (
+            <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
+                  Case Memory
+                </caption>
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="py-3 px-6">
+                      Kasus
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Kasus Baru
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Kasus Lama
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      F(T/Si)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payload?.allPenyakitnGejala.map((value, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
+                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white align-text-top">
+                        KB-{value?.hamaPenyakit?.kode}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white align-text-top">
+                        {payload?.selectedGejala?.length > 0 &&
+                          payload?.selectedGejala?.map(
+                            (valueSelectedGejala, indexSelectedGejala) => (
+                              <p key={indexSelectedGejala} className="border-b">
+                                {valueSelectedGejala?.nama || "-"}
+                              </p>
+                            )
+                          )}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white align-text-top">
+                        {value?.gejala?.length > 0 &&
+                          value?.gejala?.map((valueGejala, indexGejala) => (
+                            <p key={indexGejala} className="border-b">
+                              {valueGejala?.nama || "-"}{" "}
+                              <strong>({valueGejala?.bobot})</strong>
+                            </p>
+                          ))}
+                      </td>
+                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white align-text-top">
+                        {value?.gejala?.length > 0 &&
+                          value?.gejala?.map((valueGejala, indexGejala) => (
+                            <p key={indexGejala} className="border-b">
+                              {payload?.selectedGejala?.length > 0 &&
+                              payload?.selectedGejala
+                                ?.map((valueSelectedGejala) =>
+                                  valueSelectedGejala?._id === valueGejala?._id
+                                    ? 1
+                                    : 0
+                                )
+                                ?.includes(1)
+                                ? 1
+                                : 0}
+                            </p>
+                          ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           {payload?.processData.length > 0 && (
             <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -169,93 +330,6 @@ const RiwayatIdentifikasiDetail = ({ payload }) => {
                       </td>
                       <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {value?.similarity}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {payload?.selectedGejala.length > 0 && (
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
-                  Gejala Yang Dipilih
-                </caption>
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" className="py-3 px-6">
-                      No
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                      Kode
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                      Nama Gejala
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {payload?.selectedGejala.map((value, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {index + 1}
-                      </td>
-                      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {value?.kode}
-                      </td>
-                      <td className="py-4 px-6 font-medium text-gray-900 max-w-md dark:text-white">
-                        {value?.nama}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {payload?.allPenyakitnGejala.length > 0 && (
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
-                  Basis Pengetahuan
-                </caption>
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" className="py-3 px-6">
-                      No
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                      Penyakit
-                    </th>
-                    <th scope="col" className="py-3 px-6">
-                      Gejala
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {payload?.allPenyakitnGejala.map((value, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                    >
-                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white">
-                        {index + 1}
-                      </td>
-                      <td className="py-4 px-6 font-medium text-gray-900 dark:text-white">
-                        {value?.hamaPenyakit?.nama}
-                      </td>
-                      <td className="py-4 px-6 font-medium text-gray-900 max-w-xl dark:text-white">
-                        {value?.gejala.length > 0 &&
-                          value?.gejala.map((valGejala, indexValGejala) => (
-                            <p key={indexValGejala} className="border-b">
-                              {valGejala?.nama}
-                            </p>
-                          ))}
                       </td>
                     </tr>
                   ))}
