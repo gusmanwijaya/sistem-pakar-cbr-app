@@ -196,9 +196,11 @@ const Ubah = ({ oneData, params, dataSolusi }) => {
                   <input
                     name="kode"
                     type="text"
-                    className="cursor-not-allowed text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
-                    disabled={true}
+                    className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                     value={form?.kode}
+                    onChange={(event) =>
+                      setForm({ ...form, kode: event.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
