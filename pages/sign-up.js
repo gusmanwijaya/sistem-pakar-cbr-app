@@ -54,7 +54,7 @@ export default function SignUp() {
             <div
               className="relative flex items-start pt-12 pb-56 m-4 overflow-hidden bg-center bg-cover min-h-50-screen rounded-xl"
               style={{
-                backgroundImage: `url('/assets/img/curved-images/curved14.jpg')`,
+                backgroundImage: `url('/assets/img/2.jpeg')`,
               }}
             >
               <span className="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-dark-gray opacity-60"></span>

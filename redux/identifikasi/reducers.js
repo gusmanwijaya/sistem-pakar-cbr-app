@@ -8,6 +8,7 @@ const initialState = {
   page: 1,
   limit: 10,
   total_page: 1,
+  total_data: 0,
   allData: [],
   error: {},
 };
@@ -19,6 +20,7 @@ const reducers = (state = initialState, action) => {
         ...state,
         allData: action.allData,
         total_page: action.total_page,
+        total_data: action.total_data,
       };
 
     case ERROR_IDENTIFIKASI:

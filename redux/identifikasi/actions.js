@@ -15,11 +15,12 @@ const setPage = (page) => {
   };
 };
 
-const setGetRiwayatIdentifikasi = (allData, total_page) => {
+const setGetRiwayatIdentifikasi = (allData, total_page, total_data) => {
   return {
     type: GET_RIWAYAT_IDENTIFIKASI,
     allData,
     total_page,
+    total_data,
   };
 };
 
@@ -46,7 +47,8 @@ const fetchRiwayatIdentifikasi = (user) => {
       dispatch(
         setGetRiwayatIdentifikasi(
           response?.data?.data,
-          response?.data?.total_page
+          response?.data?.total_page,
+          response?.data?.total_data
         )
       );
     } else {

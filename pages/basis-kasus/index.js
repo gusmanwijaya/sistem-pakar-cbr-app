@@ -106,23 +106,20 @@ const BasisKasus = () => {
                           <tbody>
                             {allData.map((value, index) => (
                               <tr key={index}>
-                                <td className="p-2 align-middle bg-transparent border-b shadow-transparent">
+                                <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
-                                    {value?.hamaPenyakit?.kode}
+                                    {value?.hamaPenyakit?.nama}
                                   </p>
                                 </td>
-                                <td className="p-2 align-middle bg-transparent border-b shadow-transparent">
+                                <td className="p-2 align-middle bg-transparent border-b shadow-transparent max-w-md">
                                   <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
                                     {value?.gejala.length > 0
                                       ? value?.gejala.map(
-                                          (result, indexGejala) =>
-                                            result?.kode +
-                                            `${
-                                              indexGejala !==
-                                              value?.gejala.length - 1
-                                                ? ","
-                                                : ""
-                                            }`
+                                          (result, indexGejala) => (
+                                            <>
+                                              <p>{result?.nama}</p>
+                                            </>
+                                          )
                                         )
                                       : "-"}
                                   </p>

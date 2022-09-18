@@ -443,45 +443,47 @@ const Sidebar = () => {
             </a>
           </li>
 
-          <li className="mt-0.5 w-full">
-            <a
-              className={
-                router.pathname === "/informasi"
-                  ? "py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors cursor-pointer"
-                  : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
-              }
-              type="button"
-              onClick={() => router.replace("/informasi")}
-            >
-              <div
+          {users?.role === "petani" && (
+            <li className="mt-0.5 w-full">
+              <a
                 className={
                   router.pathname === "/informasi"
-                    ? "bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
-                    : "shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
+                    ? "py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors cursor-pointer"
+                    : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                 }
+                type="button"
+                onClick={() => router.replace("/informasi")}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill={
+                <div
+                  className={
                     router.pathname === "/informasi"
-                      ? "#FFFFFF"
-                      : "currentColor"
+                      ? "bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
+                      : "shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
                   }
-                  className="w-6 h-6"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
-                Informasi
-              </span>
-            </a>
-          </li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill={
+                      router.pathname === "/informasi"
+                        ? "#FFFFFF"
+                        : "currentColor"
+                    }
+                    className="w-6 h-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
+                  Informasi
+                </span>
+              </a>
+            </li>
+          )}
 
           <li className="w-full mt-4">
             <h6 className="pl-6 ml-2 font-bold leading-tight uppercase text-size-xs opacity-60">

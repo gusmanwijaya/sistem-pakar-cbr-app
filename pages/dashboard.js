@@ -19,7 +19,7 @@ const Dashboard = ({ data, users }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { allData, total_page, page } = useSelector(
+  const { allData, total_page, page, total_data } = useSelector(
     (state) => state.identifikasiReducers
   );
 
@@ -218,7 +218,7 @@ const Dashboard = ({ data, users }) => {
                         <div className="relative flex items-center justify-center h-full">
                           <img
                             className="relative z-20 w-full rounded-xl"
-                            src="/assets/img/kakao.jpeg"
+                            src="/assets/img/3.jpeg"
                             alt="rocket"
                           />
                         </div>
@@ -232,7 +232,7 @@ const Dashboard = ({ data, users }) => {
               <div className="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
                 <div
                   className="relative h-full overflow-hidden bg-cover rounded-xl"
-                  style={{ backgroundImage: `url('/assets/img/kakao-2.jpeg')` }}
+                  style={{ backgroundImage: `url('/assets/img/1.jpeg')` }}
                 >
                   <span className="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-dark-gray opacity-80"></span>
                   <div className="relative z-10 flex flex-col flex-auto h-full p-4">
@@ -244,12 +244,19 @@ const Dashboard = ({ data, users }) => {
                       identifikasi terhadap gejala yang Anda alami & hasil
                       identifikasi dapat dilihat pada menu hasil identifikasi.
                     </p>
+                    <p className="text-white">
+                      Jika ingin konsultasi lebih lanjut hubungi email ini :{" "}
+                      <br />
+                      <a href="mailto:agustinzarkani@gmail.com">
+                        agustinzarkani@gmail.com
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {allData.length > 0 && (
+            {total_data > 0 && (
               <div className="w-full max-w-full px-3 my-6">
                 <div className="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                   <div className="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
@@ -258,7 +265,7 @@ const Dashboard = ({ data, users }) => {
                       <i className="fa fa-check text-cyan-500"></i>
                       Pengguna sudah menggunakan sistem sebanyak
                       <span className="ml-1 font-semibold">
-                        {allData.length} kali
+                        {total_data} kali
                       </span>
                     </p>
                   </div>

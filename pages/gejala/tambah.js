@@ -29,11 +29,11 @@ const Tambah = ({ dataGejala }) => {
 
   const handleSimpan = async () => {
     if (form?.kode !== "" && form?.nama !== "" && form?.bobot !== 0) {
-      if (form?.bobot < 1 || form?.bobot > 5) {
+      if (form?.bobot < 1 || form?.bobot > 3) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: `Silahkan masukkan nilai bobot antara 1-5.`,
+          text: `Silahkan masukkan nilai bobot antara 1-3.`,
         });
       } else {
         const response = await create(form);
@@ -142,7 +142,7 @@ const Tambah = ({ dataGejala }) => {
                     }
                   />
                   <span className="text-xs text-slate-500">
-                    *Masukkan nilai bobot antara 1-5, semakin besar nilai bobot
+                    *Masukkan nilai bobot antara 1-3, semakin besar nilai bobot
                     maka semakin besar pengaruh gejala terhadap penyakit.
                   </span>
                 </div>
