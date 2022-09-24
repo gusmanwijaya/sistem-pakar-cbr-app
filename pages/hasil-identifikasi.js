@@ -13,7 +13,7 @@ const HasilIdentifikasi = () => {
     selectedGejala: [],
     allPenyakitnGejala: [],
     processData: [],
-    detailPenyakit: {},
+    detailPenyakit: [],
   });
   const [toggleHasilPerhitungan, setToggleHasilPerhitungan] = useState(false);
   const API_IMAGE = process.env.NEXT_PUBLIC_API_IMAGE;
@@ -69,43 +69,58 @@ const HasilIdentifikasi = () => {
               </h3>
             </div>
             <div className="mt-2 mb-4 text-sm text-blue-900">
-              Menurut hasil analisa, Anda terserang :{" "}
+              Menurut hasil analisa, Anda terserang : <br />{" "}
               <span className="font-bold uppercase">
-                {payload?.processData.length > 0 &&
-                  payload?.processData[0]?.hamaPenyakit}
+                {payload?.detailPenyakit?.map((value) => (
+                  <>
+                    - {value?.nama}
+                    <br />
+                  </>
+                ))}
               </span>{" "}
-              <br />
               Dengan nilai analisa sebesar :{" "}
               <span className="font-bold uppercase">
-                {payload?.processData.length > 0 &&
-                  payload?.processData[0]?.similarityPersen}
+                {payload?.processData[0]?.similarityPersen}
               </span>
             </div>
             <div className="mt-2 mb-4 text-sm text-blue-900">
-              {payload?.detailPenyakit?.foto && (
-                <div>
-                  Berikut gambar dari penyakit{" "}
-                  {payload?.processData[0]?.hamaPenyakit}{" "}
-                  <img
-                    src={`${API_IMAGE}/${directory}/${payload?.detailPenyakit?.foto}`}
-                    alt="Detail Penyakit"
-                    className="object-cover my-3 rounded-xl w-44 h-w-44"
-                  />
-                </div>
-              )}
-              <div>
-                Solusinya adalah sebagai berikut : <br /> <br />
-                {Object.keys(payload?.detailPenyakit).length > 0 &&
-                  payload?.detailPenyakit?.solusi.map((value, index) => (
-                    <div key={index}>
+              {payload?.detailPenyakit?.map((valueDetailPenyakit) => (
+                <>
+                  {valueDetailPenyakit?.foto && (
+                    <div>
+                      Berikut gambar dari{" "}
                       <span className="font-bold uppercase">
-                        {index + 1}. {value?.solusi}
-                        <br />
-                        <br />
-                      </span>
+                        {valueDetailPenyakit?.nama}
+                      </span>{" "}
+                      <img
+                        src={`${API_IMAGE}/${directory}/${valueDetailPenyakit?.foto}`}
+                        alt="Detail Penyakit"
+                        className="object-cover my-3 rounded-xl w-44 h-w-44"
+                      />
                     </div>
-                  ))}
-              </div>
+                  )}
+
+                  {valueDetailPenyakit?.solusi?.length > 0 && (
+                    <div>
+                      Solusi dari{" "}
+                      <span className="font-bold uppercase">
+                        {valueDetailPenyakit?.nama}
+                      </span>{" "}
+                      adalah sebagai berikut : <br />
+                      {valueDetailPenyakit?.solusi?.map((value, index) => (
+                        <div key={index}>
+                          <span className="font-bold uppercase">
+                            {index + 1}. {value?.solusi}
+                            <br />
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <br />
+                </>
+              ))}
             </div>
             <div className="flex justify-between">
               <button
@@ -142,7 +157,7 @@ const HasilIdentifikasi = () => {
                 : "block transform transition-all ease-in duration-500"
             }
           >
-            {payload?.processData.length > 0 && (
+            {payload?.processData?.length > 0 && (
               <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
@@ -162,7 +177,7 @@ const HasilIdentifikasi = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {payload?.processData.map((value, index) => (
+                    {payload?.processData?.map((value, index) => (
                       <tr
                         key={index}
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -183,7 +198,7 @@ const HasilIdentifikasi = () => {
               </div>
             )}
 
-            {payload?.selectedGejala.length > 0 && (
+            {payload?.selectedGejala?.length > 0 && (
               <div className="overflow-x-auto relative shadow-md sm:rounded-lg mb-8">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <caption className="p-5 text-base font-semibold text-center text-slate-900 bg-white dark:text-white dark:bg-slate-800">
@@ -203,7 +218,7 @@ const HasilIdentifikasi = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {payload?.selectedGejala.map((value, index) => (
+                    {payload?.selectedGejala?.map((value, index) => (
                       <tr
                         key={index}
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"

@@ -16,6 +16,9 @@ import { getAll } from "../services/dashboard";
 import { destroy } from "../services/identifikasi";
 
 const Dashboard = ({ data, users }) => {
+  const API_IMAGE = process.env.NEXT_PUBLIC_API_IMAGE;
+  const directory = "hama-penyakit";
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -304,7 +307,12 @@ const Dashboard = ({ data, users }) => {
                               </td>
                               <td className="p-2 leading-normal text-center align-middle bg-transparent text-size-sm whitespace-nowrap">
                                 <span className="font-semibold leading-tight text-size-xs">
-                                  {value?.detailPenyakit?.nama}
+                                  {value?.detailPenyakit?.map(
+                                    (valueDetailPenyakit, index, array) =>
+                                      `${valueDetailPenyakit?.nama} ${
+                                        index !== array?.length - 1 ? " | " : ""
+                                      }`
+                                  )}
                                 </span>
                               </td>
                               <td className="p-2 leading-normal text-center align-middle bg-transparent text-size-sm whitespace-nowrap">

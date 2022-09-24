@@ -65,41 +65,60 @@ const RiwayatIdentifikasiDetail = ({ payload }) => {
                 Detail riwayat identifikasi dengan metode CBR & KNN
               </h3>
             </div>
+
             <div className="mt-2 mb-4 text-sm text-blue-900">
-              Menurut hasil analisa, Anda terserang :{" "}
+              Menurut hasil analisa, Anda terserang : <br />{" "}
               <span className="font-bold uppercase">
-                {payload?.processData[0]?.hamaPenyakit}
+                {payload?.detailPenyakit?.map((value) => (
+                  <>
+                    - {value?.nama}
+                    <br />
+                  </>
+                ))}
               </span>{" "}
-              <br />
               Dengan nilai analisa sebesar :{" "}
               <span className="font-bold uppercase">
                 {payload?.processData[0]?.similarityPersen}
               </span>
             </div>
             <div className="mt-2 mb-4 text-sm text-blue-900">
-              {payload?.detailPenyakit?.foto && (
-                <div>
-                  Berikut gambar dari penyakit{" "}
-                  {payload?.processData[0]?.hamaPenyakit}{" "}
-                  <img
-                    src={`${API_IMAGE}/${directory}/${payload?.detailPenyakit?.foto}`}
-                    alt="Detail Penyakit"
-                    className="object-cover my-3 rounded-xl w-44 h-w-44"
-                  />
-                </div>
-              )}
-              <div>
-                Solusinya adalah sebagai berikut : <br /> <br />
-                {payload?.detailPenyakit?.solusi.map((value, index) => (
-                  <div key={index}>
-                    <span className="font-bold uppercase">
-                      {index + 1}. {value?.solusi}
-                    </span>
-                    <br />
-                    <br />
-                  </div>
-                ))}
-              </div>
+              {payload?.detailPenyakit?.map((valueDetailPenyakit) => (
+                <>
+                  {valueDetailPenyakit?.foto && (
+                    <div>
+                      Berikut gambar dari{" "}
+                      <span className="font-bold uppercase">
+                        {valueDetailPenyakit?.nama}
+                      </span>{" "}
+                      <img
+                        src={`${API_IMAGE}/${directory}/${valueDetailPenyakit?.foto}`}
+                        alt="Detail Penyakit"
+                        className="object-cover my-3 rounded-xl w-44 h-w-44"
+                      />
+                    </div>
+                  )}
+
+                  {valueDetailPenyakit?.solusi?.length > 0 && (
+                    <div>
+                      Solusi dari{" "}
+                      <span className="font-bold uppercase">
+                        {valueDetailPenyakit?.nama}
+                      </span>{" "}
+                      adalah sebagai berikut : <br />
+                      {valueDetailPenyakit?.solusi?.map((value, index) => (
+                        <div key={index}>
+                          <span className="font-bold uppercase">
+                            {index + 1}. {value?.solusi}
+                            <br />
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <br />
+                </>
+              ))}
             </div>
             <div className="flex justify-end">
               <p className="text-sm italic text-slate-400">{payload?.date}</p>
