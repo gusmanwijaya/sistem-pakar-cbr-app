@@ -8,7 +8,7 @@ import { MultiSelect } from "react-multi-select-component";
 import Swal from "sweetalert2";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
-import { getOne, revisi } from "../../../services/basis-baru";
+import { getOne, revisi } from "../../../services/kasus-baru";
 import { getForSelect as getForSelectHamaPenyakit } from "../../../services/hama-penyakit";
 import { getForSelect as getForSelectGejala } from "../../../services/gejala";
 import { getForSelect as getForSelectSolusi } from "../../../services/solusi";
@@ -24,7 +24,7 @@ const Revisi = ({
   const router = useRouter();
 
   const [form, setForm] = useState({
-    hamaPenyakit: "",
+    hamaPenyakit: "[]",
     gejala: "[]",
     solusi: "[]",
   });
@@ -32,7 +32,7 @@ const Revisi = ({
   const handleSimpan = async () => {
     const response = await revisi(params?.id, form);
     if (response?.data?.statusCode === 200) {
-      router.replace("/basis-baru");
+      router.replace("/kasus-baru");
       Swal.fire({
         icon: "success",
         title: "Sukses",
@@ -47,6 +47,41 @@ const Revisi = ({
     }
   };
 
+  // START: Hama/Penyakit
+  let _tempForOptionsHamaPenyakit = [];
+
+  for (let index = 0; index < dataHamaPenyakit.length; index++) {
+    const element = dataHamaPenyakit[index];
+    _tempForOptionsHamaPenyakit.push({
+      label: `${element?.kode} - ${element?.nama}`,
+      value: element?._id,
+    });
+  }
+
+  const optionsHamaPenyakit = _tempForOptionsHamaPenyakit;
+
+  const [showValueHamaPenyakit, setShowValueHamaPenyakit] = useState([]);
+
+  const handleMultipleSelectHamaPenyakit = (data) => {
+    setShowValueHamaPenyakit(data);
+    let _tempHamaPenyakit = [];
+
+    if (data.length > 0) {
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        _tempHamaPenyakit.push(element?.value);
+      }
+
+      if (_tempHamaPenyakit.length > 0) {
+        setForm({ ...form, hamaPenyakit: JSON.stringify(_tempHamaPenyakit) });
+      }
+    } else {
+      setForm({ ...form, hamaPenyakit: "[]" });
+    }
+  };
+  // END: Hama/Penyakit
+
+  // START: Gejala
   let _tempForOptionsGejala = [];
 
   for (let index = 0; index < dataGejala.length; index++) {
@@ -78,7 +113,9 @@ const Revisi = ({
       setForm({ ...form, gejala: "[]" });
     }
   };
+  // END: Gejala
 
+  // START: Solusi
   let _tempForOptionsSolusi = [];
 
   for (let index = 0; index < dataSolusi.length; index++) {
@@ -110,9 +147,49 @@ const Revisi = ({
       setForm({ ...form, solusi: "[]" });
     }
   };
+  // END: Solusi
 
   useEffect(() => {
     if (Object.keys(oneData).length > 0) {
+      // START: Hama/Penyakit
+      let _tempIdHamaPenyakit = [];
+      let _idHamaPenyakit = [];
+      let updateForShowValueHamaPenyakit = [];
+
+      for (let index = 0; index < oneData?.detailPenyakit.length; index++) {
+        const element = oneData?.detailPenyakit[index];
+        _idHamaPenyakit.push(element?._id);
+      }
+
+      if (_idHamaPenyakit.length > 0) {
+        for (let index = 0; index < optionsHamaPenyakit.length; index++) {
+          const element = optionsHamaPenyakit[index];
+          for (let index2 = 0; index2 < _idHamaPenyakit.length; index2++) {
+            const element2 = _idHamaPenyakit[index2];
+            if (element?.value === element2) {
+              updateForShowValueHamaPenyakit.push({
+                label: element?.label,
+                value: element?.value,
+              });
+            }
+          }
+        }
+
+        if (updateForShowValueHamaPenyakit.length > 0) {
+          setShowValueHamaPenyakit(updateForShowValueHamaPenyakit);
+
+          for (
+            let index = 0;
+            index < updateForShowValueHamaPenyakit.length;
+            index++
+          ) {
+            const element = updateForShowValueHamaPenyakit[index];
+            _tempIdHamaPenyakit.push(element?.value);
+          }
+        }
+      }
+      // END: Hama/Penyakit
+
       // START: Gejala
       let _tempIdGej = [];
       let _idGejala = [];
@@ -193,7 +270,7 @@ const Revisi = ({
 
       setForm({
         ...form,
-        hamaPenyakit: oneData?.hamaPenyakit || "",
+        hamaPenyakit: JSON.stringify(_tempIdHamaPenyakit) || "[]",
         gejala: JSON.stringify(_tempIdGej) || "[]",
         solusi: JSON.stringify(_tempIdSol) || "[]",
       });
@@ -204,14 +281,14 @@ const Revisi = ({
     <>
       <Head>
         <title>
-          Revisi Basis Baru - Sistem Pakar Identifikasi Tanaman Kakao
+          Revisi Kasus Baru - Sistem Pakar Identifikasi Tanaman Kakao
           Menggunakan Metode CBR dan KNN
         </title>
       </Head>
       <Content>
         <div className="container pb-6">
           <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
-            <Link href="/basis-baru">
+            <Link href="/kasus-baru">
               <button type="button" className="my-4 mx-2 space-x-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -235,35 +312,16 @@ const Revisi = ({
                     htmlFor="hamaPenyakit"
                     className="block text-sm font-medium text-slate-400 mb-2"
                   >
-                    Hama & Penyakit
+                    Hama/Penyakit
                   </label>
-                  <select
-                    disabled={true}
-                    name="hamaPenyakit"
-                    className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow cursor-not-allowed"
+                  <MultiSelect
+                    options={optionsHamaPenyakit}
+                    value={showValueHamaPenyakit}
                     onChange={(event) =>
-                      setForm({ ...form, hamaPenyakit: event.target.value })
+                      handleMultipleSelectHamaPenyakit(event)
                     }
-                  >
-                    <option value="">-Pilih-</option>
-                    {dataHamaPenyakit.length > 0 &&
-                      dataHamaPenyakit.map((value, index) =>
-                        value?._id.toString() ===
-                        oneData?.detailPenyakit[0]?._id.toString() ? (
-                          <option
-                            selected={true}
-                            key={index}
-                            value={value?._id}
-                          >
-                            {value?.kode} - {value?.nama}
-                          </option>
-                        ) : (
-                          <option key={index} value={value?._id}>
-                            {value?.kode} - {value?.nama}
-                          </option>
-                        )
-                      )}
-                  </select>
+                    labelledBy="Pilih"
+                  />
                 </div>
                 <div className="mb-4">
                   <label

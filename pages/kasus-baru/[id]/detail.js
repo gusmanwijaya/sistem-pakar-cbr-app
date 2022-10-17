@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
-import { getOne } from "../../../services/basis-baru";
+import { getOne } from "../../../services/kasus-baru";
 
 const Detail = ({ oneData }) => {
   return (
@@ -17,7 +17,7 @@ const Detail = ({ oneData }) => {
       </Head>
       <Content>
         <div className="px-10 pb-6 mx-auto">
-          <Link href="/basis-baru">
+          <Link href="/kasus-baru">
             <button type="button" className="mt-4 mx-2 space-x-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -41,13 +41,16 @@ const Detail = ({ oneData }) => {
                   Hama & Penyakit
                 </dt>
                 <dd className="mt-1 text-sm text-slate-900 sm:mt-0 sm:col-span-2">
-                  <div>
-                    <div className="font-medium">
-                      Kode: {oneData?.detailPenyakit[0]?.kode}
-                    </div>
-                    <div className="text-sm opacity-50">
-                      {oneData?.detailPenyakit[0]?.nama}
-                    </div>
+                  <div className="flex flex-col space-y-4">
+                    {oneData?.detailPenyakit?.length > 0 &&
+                      oneData?.detailPenyakit?.map((value, index) => (
+                        <div key={index}>
+                          <div className="font-medium">Kode: {value?.kode}</div>
+                          <div className="text-sm opacity-50">
+                            {value?.nama}
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </dd>
               </div>

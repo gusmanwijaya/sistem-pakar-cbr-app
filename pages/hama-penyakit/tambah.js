@@ -4,7 +4,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { MultiSelect } from "react-multi-select-component";
 import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";

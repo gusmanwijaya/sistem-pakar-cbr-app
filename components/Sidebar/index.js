@@ -408,16 +408,16 @@ const Sidebar = () => {
               <li className="mt-0.5 w-full">
                 <a
                   className={
-                    router.pathname === "/basis-baru"
+                    router.pathname === "/kasus-baru"
                       ? "py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors cursor-pointer"
                       : "py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer"
                   }
                   type="button"
-                  onClick={() => router.replace("/basis-baru")}
+                  onClick={() => router.replace("/kasus-baru")}
                 >
                   <div
                     className={
-                      router.pathname === "/basis-baru"
+                      router.pathname === "/kasus-baru"
                         ? "bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
                         : "shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5"
                     }
@@ -426,7 +426,7 @@ const Sidebar = () => {
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill={
-                        router.pathname === "/basis-baru"
+                        router.pathname === "/kasus-baru"
                           ? "#FFFFFF"
                           : "currentColor"
                       }
@@ -439,7 +439,7 @@ const Sidebar = () => {
                     </svg>
                   </div>
                   <span className="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
-                    Basis Baru
+                    Kasus Baru
                   </span>
                 </a>
               </li>

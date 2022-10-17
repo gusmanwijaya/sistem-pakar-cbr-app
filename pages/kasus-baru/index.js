@@ -8,15 +8,15 @@ import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
 import Pagination from "../../components/Pagination";
-import { fetchAllBasisBaru, setPage } from "../../redux/basis-baru/actions";
-import { destroy, confirmVerified } from "../../services/basis-baru";
+import { fetchAllKasusBaru, setPage } from "../../redux/kasus-baru/actions";
+import { destroy, confirmVerified } from "../../services/kasus-baru";
 
 const KasusBaru = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { allData, page, total_page } = useSelector(
-    (state) => state.basisBaruReducers
+    (state) => state.kasusBaruReducers
   );
 
   const handlePrevious = () => {
@@ -46,7 +46,7 @@ const KasusBaru = () => {
             title: "Sukses",
             text: `${response?.data?.message || "Berhasil verifikasi data!"}`,
           });
-          dispatch(fetchAllBasisBaru());
+          dispatch(fetchAllKasusBaru());
         } else {
           Swal.fire({
             icon: "error",
@@ -79,7 +79,7 @@ const KasusBaru = () => {
             title: "Sukses",
             text: `${response?.data?.message || "Berhasil menghapus data!"}`,
           });
-          dispatch(fetchAllBasisBaru());
+          dispatch(fetchAllKasusBaru());
         } else {
           Swal.fire({
             icon: "error",
@@ -94,14 +94,14 @@ const KasusBaru = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchAllBasisBaru());
+    dispatch(fetchAllKasusBaru());
   }, [dispatch, page]);
 
   return (
     <>
       <Head>
         <title>
-          Basis Baru - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
+          Kasus Baru - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
           Metode CBR dan KNN
         </title>
       </Head>
@@ -140,7 +140,15 @@ const KasusBaru = () => {
                               <tr key={index}>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
-                                    {value?.detailPenyakit[0]?.nama}
+                                    {value?.detailPenyakit.length > 0
+                                      ? value?.detailPenyakit?.map(
+                                          (result, indexPenyakit) => (
+                                            <p key={indexPenyakit}>
+                                              {result?.kode} - {result?.nama}
+                                            </p>
+                                          )
+                                        )
+                                      : "-"}
                                   </p>
                                 </td>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
@@ -186,7 +194,7 @@ const KasusBaru = () => {
                                     <button
                                       onClick={() =>
                                         router.replace(
-                                          `/basis-baru/${value?._id}/detail`
+                                          `/kasus-baru/${value?._id}/detail`
                                         )
                                       }
                                       type="button"
@@ -237,7 +245,7 @@ const KasusBaru = () => {
                                     <button
                                       onClick={() =>
                                         router.replace(
-                                          `/basis-baru/${value?._id}/revisi`
+                                          `/kasus-baru/${value?._id}/revisi`
                                         )
                                       }
                                       type="button"
