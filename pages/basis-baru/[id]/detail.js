@@ -4,20 +4,20 @@ import Link from "next/link";
 import React from "react";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
-import { getOne } from "../../../services/basis-kasus";
+import { getOne } from "../../../services/basis-baru";
 
 const Detail = ({ oneData }) => {
   return (
     <>
       <Head>
         <title>
-          Detail Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao
+          Detail Basis Baru - Sistem Pakar Identifikasi Tanaman Kakao
           Menggunakan Metode CBR dan KNN
         </title>
       </Head>
       <Content>
         <div className="px-10 pb-6 mx-auto">
-          <Link href="/basis-kasus">
+          <Link href="/basis-baru">
             <button type="button" className="mt-4 mx-2 space-x-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -43,10 +43,10 @@ const Detail = ({ oneData }) => {
                 <dd className="mt-1 text-sm text-slate-900 sm:mt-0 sm:col-span-2">
                   <div>
                     <div className="font-medium">
-                      Kode: {oneData?.hamaPenyakit?.kode}
+                      Kode: {oneData?.detailPenyakit[0]?.kode}
                     </div>
                     <div className="text-sm opacity-50">
-                      {oneData?.hamaPenyakit?.nama}
+                      {oneData?.detailPenyakit[0]?.nama}
                     </div>
                   </div>
                 </dd>
@@ -55,8 +55,8 @@ const Detail = ({ oneData }) => {
                 <dt className="text-sm font-medium text-slate-500">Gejala</dt>
                 <dd className="mt-1 text-sm text-slate-900 sm:mt-0 sm:col-span-2">
                   <div className="flex flex-col space-y-4">
-                    {oneData?.gejala.length > 0 &&
-                      oneData?.gejala.map((value, index) => (
+                    {oneData?.selectedGejala?.length > 0 &&
+                      oneData?.selectedGejala?.map((value, index) => (
                         <div key={index}>
                           <div className="font-medium">Kode: {value?.kode}</div>
                           <div className="text-sm opacity-50">
@@ -71,8 +71,8 @@ const Detail = ({ oneData }) => {
                 <dt className="text-sm font-medium text-slate-500">Solusi</dt>
                 <dd className="mt-1 text-sm text-slate-900 sm:mt-0 sm:col-span-2">
                   <div className="flex flex-col space-y-4">
-                    {oneData?.solusi.length > 0 &&
-                      oneData?.solusi.map((value, index) => (
+                    {oneData?.detailSolusi?.length > 0 &&
+                      oneData?.detailSolusi?.map((value, index) => (
                         <div key={index}>
                           <div className="font-medium">Kode: {value?.kode}</div>
                           <div className="text-sm opacity-50">
@@ -81,6 +81,20 @@ const Detail = ({ oneData }) => {
                         </div>
                       ))}
                   </div>
+                </dd>
+              </div>
+              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-slate-500">Pengguna</dt>
+                <dd className="mt-1 text-sm text-slate-900 sm:mt-0 sm:col-span-2">
+                  {oneData?.user?.nama || "-"}
+                </dd>
+              </div>
+              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-slate-500">Status</dt>
+                <dd className="mt-1 text-sm text-slate-900 sm:mt-0 sm:col-span-2">
+                  {oneData?.isVerified === false
+                    ? "Belum Diverifikasi"
+                    : "Sudah Diverifikasi"}
                 </dd>
               </div>
             </dl>

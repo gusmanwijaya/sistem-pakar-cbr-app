@@ -54,7 +54,10 @@ const Dashboard = ({ data, users }) => {
             text: `${response?.data?.message || "Berhasil menghapus data!"}`,
           });
           dispatch(
-            fetchRiwayatIdentifikasi(users?.role === "petani" ? users?._id : "")
+            fetchRiwayatIdentifikasi(
+              users?.role === "petani" ? users?._id : "",
+              users?.role === "petani" ? true : ""
+            )
           );
         } else {
           Swal.fire({
@@ -71,7 +74,10 @@ const Dashboard = ({ data, users }) => {
 
   useEffect(() => {
     dispatch(
-      fetchRiwayatIdentifikasi(users?.role === "petani" ? users?._id : "")
+      fetchRiwayatIdentifikasi(
+        users?.role === "petani" ? users?._id : "",
+        users?.role === "petani" ? true : ""
+      )
     );
   }, [dispatch, users?._id, users?.role, page]);
 

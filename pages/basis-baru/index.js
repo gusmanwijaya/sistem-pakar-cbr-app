@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import jwtDecode from "jwt-decode";
 import Head from "next/head";
@@ -9,15 +8,15 @@ import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
 import Pagination from "../../components/Pagination";
-import { fetchAllBasisKasus, setPage } from "../../redux/basis-kasus/actions";
-import { destroy } from "../../services/basis-kasus";
+import { fetchAllBasisBaru, setPage } from "../../redux/basis-baru/actions";
+import { destroy, confirmVerified } from "../../services/basis-baru";
 
-const BasisKasus = () => {
+const KasusBaru = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { allData, page, total_page } = useSelector(
-    (state) => state.basisKasusReducers
+    (state) => state.basisBaruReducers
   );
 
   const handlePrevious = () => {
@@ -26,6 +25,39 @@ const BasisKasus = () => {
 
   const handleNext = () => {
     dispatch(setPage(page === total_page ? total_page : page + 1));
+  };
+
+  const handleConfirmVerified = async (id) => {
+    Swal.fire({
+      title: "Verifikasi data?",
+      text: "Apakah Anda yakin akan melakukan verifikasi ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#22c55e",
+      cancelButtonColor: "#64748b",
+      confirmButtonText: "Iya, Verifikasi",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await confirmVerified(id);
+        if (response?.data?.statusCode === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Sukses",
+            text: `${response?.data?.message || "Berhasil verifikasi data!"}`,
+          });
+          dispatch(fetchAllBasisBaru());
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${
+              response?.data?.message || "Nampaknya terjadi kesalahan!"
+            }`,
+          });
+        }
+      }
+    });
   };
 
   const handleDelete = (id) => {
@@ -47,7 +79,7 @@ const BasisKasus = () => {
             title: "Sukses",
             text: `${response?.data?.message || "Berhasil menghapus data!"}`,
           });
-          dispatch(fetchAllBasisKasus());
+          dispatch(fetchAllBasisBaru());
         } else {
           Swal.fire({
             icon: "error",
@@ -62,14 +94,14 @@ const BasisKasus = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchAllBasisKasus());
+    dispatch(fetchAllBasisBaru());
   }, [dispatch, page]);
 
   return (
     <>
       <Head>
         <title>
-          Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
+          Basis Baru - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
           Metode CBR dan KNN
         </title>
       </Head>
@@ -77,15 +109,6 @@ const BasisKasus = () => {
         <div className="w-full px-6 py-6 mx-auto">
           {allData.length > 0 ? (
             <>
-              <div className="flex justify-end items-center px-4 mb-4">
-                <button
-                  onClick={() => router.replace("/basis-kasus/tambah")}
-                  type="button"
-                  className="inline-block px-6 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs hover:scale-102 active:shadow-soft-xs tracking-tight-soft border-sky-500 text-sky-500 hover:border-sky-500 hover:bg-transparent hover:text-sky-500 hover:opacity-75 hover:shadow-none active:bg-sky-500 active:text-white active:hover:bg-transparent active:hover:text-sky-500"
-                >
-                  Tambah
-                </button>
-              </div>
               <div className="flex flex-wrap -mx-3">
                 <div className="flex-none w-full max-w-full px-3">
                   <div className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
@@ -103,6 +126,12 @@ const BasisKasus = () => {
                               <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                 Solusi
                               </th>
+                              <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                Pengguna
+                              </th>
+                              <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                Status
+                              </th>
                               <th className="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-slate-200 border-solid shadow-none tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
                             </tr>
                           </thead>
@@ -111,16 +140,16 @@ const BasisKasus = () => {
                               <tr key={index}>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
-                                    {value?.hamaPenyakit?.nama}
+                                    {value?.detailPenyakit[0]?.nama}
                                   </p>
                                 </td>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <div className="mb-0 font-semibold leading-tight text-size-xs px-4">
-                                    {value?.gejala.length > 0
-                                      ? value?.gejala.map(
+                                    {value?.selectedGejala.length > 0
+                                      ? value?.selectedGejala.map(
                                           (result, indexGejala) => (
                                             <p key={indexGejala}>
-                                              {result?.nama}
+                                              {result?.kode} - {result?.nama}
                                             </p>
                                           )
                                         )
@@ -129,27 +158,39 @@ const BasisKasus = () => {
                                 </td>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <div className="mb-0 font-semibold leading-tight text-size-xs px-4">
-                                    {value?.solusi.length > 0
-                                      ? value?.solusi.map(
+                                    {value?.detailSolusi.length > 0
+                                      ? value?.detailSolusi.map(
                                           (result, indexSolusi) => (
                                             <p key={indexSolusi}>
-                                              {result?.solusi}
+                                              {result?.kode} - {result?.solusi}
                                             </p>
                                           )
                                         )
                                       : "-"}
                                   </div>
                                 </td>
-                                <td className="p-2 align-middle bg-transparent border-b shadow-transparent">
-                                  <div className="flex flex-row justify-center items-center space-x-3">
+                                <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
+                                  <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
+                                    {value?.user?.nama || "-"}
+                                  </p>
+                                </td>
+                                <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
+                                  <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
+                                    {value?.isVerified === false
+                                      ? "Belum Diverifikasi"
+                                      : "Sudah Diverifikasi"}
+                                  </p>
+                                </td>
+                                <td className="p-2 align-top bg-transparent border-b shadow-transparent">
+                                  <div className="flex flex-col justify-center items-center space-y-3 mx-5">
                                     <button
                                       onClick={() =>
                                         router.replace(
-                                          `/basis-kasus/${value?._id}/detail`
+                                          `/basis-baru/${value?._id}/detail`
                                         )
                                       }
                                       type="button"
-                                      className="font-semibold leading-tight text-size-xs text-lime-400"
+                                      className="font-semibold leading-tight text-size-xs text-slate-400"
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -173,8 +214,30 @@ const BasisKasus = () => {
                                     </button>
                                     <button
                                       onClick={() =>
+                                        handleConfirmVerified(value?._id)
+                                      }
+                                      type="button"
+                                      className="font-semibold leading-tight text-size-xs text-green-400"
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="w-4 h-4"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                      </svg>
+                                    </button>
+                                    <button
+                                      onClick={() =>
                                         router.replace(
-                                          `/basis-kasus/${value?._id}/ubah`
+                                          `/basis-baru/${value?._id}/revisi`
                                         )
                                       }
                                       type="button"
@@ -246,13 +309,6 @@ const BasisKasus = () => {
               <p className="font-bold text-transparent bg-gradient-cyan bg-clip-text mb-4">
                 Oops, nampaknya data masih kosong!
               </p>
-              <button
-                onClick={() => router.replace("/basis-kasus/tambah")}
-                type="button"
-                className="inline-block px-6 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs hover:scale-102 active:shadow-soft-xs tracking-tight-soft border-sky-500 text-sky-500 hover:border-sky-500 hover:bg-transparent hover:text-sky-500 hover:opacity-75 hover:shadow-none active:bg-sky-500 active:text-white active:hover:bg-transparent active:hover:text-sky-500"
-              >
-                Tambah
-              </button>
             </div>
           )}
           <Footer auth={false} />
@@ -262,7 +318,7 @@ const BasisKasus = () => {
   );
 };
 
-export default BasisKasus;
+export default KasusBaru;
 
 export async function getServerSideProps({ req }) {
   const { token } = req.cookies;

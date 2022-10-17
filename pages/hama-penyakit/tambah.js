@@ -8,52 +8,18 @@ import { MultiSelect } from "react-multi-select-component";
 import Swal from "sweetalert2";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
-import { create, getForSelect } from "../../services/hama-penyakit";
-import { getForSelect as getForSelectSolusi } from "../../services/solusi";
+import { create } from "../../services/hama-penyakit";
 
-const Tambah = ({ dataHamaPenyakit, dataSolusi }) => {
+const Tambah = () => {
   const router = useRouter();
 
   const [form, setForm] = useState({
     kode: "",
     nama: "",
     deskripsi: "",
-    solusi: "[]",
     foto: "",
     imagePreview: "",
   });
-
-  let _tempForOptionsSolusi = [];
-
-  for (let index = 0; index < dataSolusi.length; index++) {
-    const element = dataSolusi[index];
-    _tempForOptionsSolusi.push({
-      label: `${element?.kode} - ${element?.solusi}`,
-      value: element?._id,
-    });
-  }
-
-  const optionsSolusi = _tempForOptionsSolusi;
-
-  const [showValueSolusi, setShowValueSolusi] = useState([]);
-
-  const handleMultipleSelectSolusi = (data) => {
-    setShowValueSolusi(data);
-    let _tempSolusi = [];
-
-    if (data.length > 0) {
-      for (let index = 0; index < data.length; index++) {
-        const element = data[index];
-        _tempSolusi.push(element?.value);
-      }
-
-      if (_tempSolusi.length > 0) {
-        setForm({ ...form, solusi: JSON.stringify(_tempSolusi) });
-      }
-    } else {
-      setForm({ ...form, solusi: "[]" });
-    }
-  };
 
   const handleUploadPhoto = (event) => {
     const size = event?.target?.files[0]?.size;
@@ -78,7 +44,6 @@ const Tambah = ({ dataHamaPenyakit, dataSolusi }) => {
     formData.append("kode", form?.kode);
     formData.append("nama", form?.nama);
     formData.append("deskripsi", form?.deskripsi);
-    formData.append("solusi", form?.solusi);
     formData.append("foto", form?.foto);
 
     const response = await create(formData);
@@ -176,20 +141,6 @@ const Tambah = ({ dataHamaPenyakit, dataSolusi }) => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label
-                    htmlFor="solusi"
-                    className="block text-sm font-medium text-slate-400 mb-2"
-                  >
-                    Solusi
-                  </label>
-                  <MultiSelect
-                    options={optionsSolusi}
-                    value={showValueSolusi}
-                    onChange={(event) => handleMultipleSelectSolusi(event)}
-                    labelledBy="Pilih"
-                  />
-                </div>
-                <div className="mb-4">
                   {form?.imagePreview !== "" && (
                     <div className="flex justify-center mb-4">
                       <img
@@ -267,13 +218,7 @@ export async function getServerSideProps({ req }) {
       },
     };
 
-  const response = await getForSelect(token);
-  const responseSolusi = await getForSelectSolusi(token);
-
   return {
-    props: {
-      dataHamaPenyakit: response?.data?.data || [],
-      dataSolusi: responseSolusi?.data?.data || [],
-    },
+    props: {},
   };
 }

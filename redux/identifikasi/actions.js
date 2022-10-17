@@ -31,7 +31,7 @@ const setErrorIdentifikasi = (error) => {
   };
 };
 
-const fetchRiwayatIdentifikasi = (user) => {
+const fetchRiwayatIdentifikasi = (user, isVerified) => {
   return async (dispatch, getState) => {
     const params = {
       page: getState().identifikasiReducers?.page || 1,
@@ -41,7 +41,8 @@ const fetchRiwayatIdentifikasi = (user) => {
     const response = await debouncedGetRiwayatIdentifikasi(
       user,
       params?.page,
-      params?.limit
+      params?.limit,
+      isVerified
     );
     if (response?.data?.statusCode === 200) {
       dispatch(

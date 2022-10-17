@@ -10,9 +10,10 @@ import { create } from "../../services/basis-kasus";
 import { MultiSelect } from "react-multi-select-component";
 import { getForSelect as getForSelectHamaPenyakit } from "../../services/hama-penyakit";
 import { getForSelect as getForSelectGejala } from "../../services/gejala";
+import { getForSelect as getForSelectSolusi } from "../../services/solusi";
 import Head from "next/head";
 
-const Tambah = ({ dataHamaPenyakit, dataGejala }) => {
+const Tambah = ({ dataHamaPenyakit, dataGejala, dataSolusi }) => {
   const router = useRouter();
 
   let _tempForOptionsGejala = [];
@@ -30,6 +31,7 @@ const Tambah = ({ dataHamaPenyakit, dataGejala }) => {
   const [form, setForm] = useState({
     hamaPenyakit: "",
     gejala: "[]",
+    solusi: "[]",
   });
   const [showValueGejala, setShowValueGejala] = useState([]);
 
@@ -51,8 +53,44 @@ const Tambah = ({ dataHamaPenyakit, dataGejala }) => {
     }
   };
 
+  let _tempForOptionsSolusi = [];
+
+  for (let index = 0; index < dataSolusi.length; index++) {
+    const element = dataSolusi[index];
+    _tempForOptionsSolusi.push({
+      label: `${element?.kode} - ${element?.solusi}`,
+      value: element?._id,
+    });
+  }
+
+  const optionsSolusi = _tempForOptionsSolusi;
+
+  const [showValueSolusi, setShowValueSolusi] = useState([]);
+
+  const handleMultipleSelectSolusi = (data) => {
+    setShowValueSolusi(data);
+    let _tempSolusi = [];
+
+    if (data.length > 0) {
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        _tempSolusi.push(element?.value);
+      }
+
+      if (_tempSolusi.length > 0) {
+        setForm({ ...form, solusi: JSON.stringify(_tempSolusi) });
+      }
+    } else {
+      setForm({ ...form, solusi: "[]" });
+    }
+  };
+
   const handleSimpan = async () => {
-    if (form?.hamaPenyakit !== "" && form?.gejala !== "[]") {
+    if (
+      form?.hamaPenyakit !== "" &&
+      form?.gejala !== "[]" &&
+      form?.solusi !== "[]"
+    ) {
       const response = await create(form);
       if (response?.data?.statusCode === 201) {
         router.replace("/basis-kasus");
@@ -144,6 +182,20 @@ const Tambah = ({ dataHamaPenyakit, dataGejala }) => {
                     labelledBy="Pilih"
                   />
                 </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="solusi"
+                    className="block text-sm font-medium text-slate-400 mb-2"
+                  >
+                    Solusi
+                  </label>
+                  <MultiSelect
+                    options={optionsSolusi}
+                    value={showValueSolusi}
+                    onChange={(event) => handleMultipleSelectSolusi(event)}
+                    labelledBy="Pilih"
+                  />
+                </div>
                 <div className="text-center">
                   <button
                     type="button"
@@ -186,11 +238,13 @@ export async function getServerSideProps({ req }) {
 
   const responseHamaPenyakit = await getForSelectHamaPenyakit(token);
   const responseGejala = await getForSelectGejala(token);
+  const responseSolusi = await getForSelectSolusi(token);
 
   return {
     props: {
       dataHamaPenyakit: responseHamaPenyakit?.data?.data || [],
       dataGejala: responseGejala?.data?.data || [],
+      dataSolusi: responseSolusi?.data?.data || [],
     },
   };
 }

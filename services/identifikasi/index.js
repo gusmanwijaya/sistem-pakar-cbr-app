@@ -13,8 +13,8 @@ export async function processIdentifikasi(data) {
   return CallApi({ url, method: "POST", token: true, data });
 }
 
-export async function getRiwayatIdentifikasi(user, page, limit) {
-  const url = `${ROOT_API}/${API}/identifikasi/get-riwayat-identifikasi?user=${user}&page=${page}&limit=${limit}`;
+export async function getRiwayatIdentifikasi(user, page, limit, isVerified) {
+  const url = `${ROOT_API}/${API}/identifikasi/get-riwayat-identifikasi?user=${user}&page=${page}&limit=${limit}&isVerified=${isVerified}`;
   return CallApi({ url, method: "GET", token: true });
 }
 

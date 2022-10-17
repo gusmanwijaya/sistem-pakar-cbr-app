@@ -10,9 +10,8 @@ import Swal from "sweetalert2";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
 import { getOne, update } from "../../../services/hama-penyakit";
-import { getForSelect as getForSelectSolusi } from "../../../services/solusi";
 
-const Ubah = ({ oneData, params, dataSolusi }) => {
+const Ubah = ({ oneData, params }) => {
   const router = useRouter();
   const API_IMAGE = process.env.NEXT_PUBLIC_API_IMAGE;
   const directory = "hama-penyakit";
@@ -21,42 +20,9 @@ const Ubah = ({ oneData, params, dataSolusi }) => {
     kode: "",
     nama: "",
     deskripsi: "",
-    solusi: "[]",
     foto: "",
     imagePreview: "",
   });
-
-  let _tempForOptionsSolusi = [];
-
-  for (let index = 0; index < dataSolusi.length; index++) {
-    const element = dataSolusi[index];
-    _tempForOptionsSolusi.push({
-      label: `${element?.kode} - ${element?.solusi}`,
-      value: element?._id,
-    });
-  }
-
-  const optionsSolusi = _tempForOptionsSolusi;
-
-  const [showValueSolusi, setShowValueSolusi] = useState([]);
-
-  const handleMultipleSelectSolusi = (data) => {
-    setShowValueSolusi(data);
-    let _tempSolusi = [];
-
-    if (data.length > 0) {
-      for (let index = 0; index < data.length; index++) {
-        const element = data[index];
-        _tempSolusi.push(element?.value);
-      }
-
-      if (_tempSolusi.length > 0) {
-        setForm({ ...form, solusi: JSON.stringify(_tempSolusi) });
-      }
-    } else {
-      setForm({ ...form, solusi: "[]" });
-    }
-  };
 
   const handleUploadPhoto = (event) => {
     const size = event?.target?.files[0]?.size;
@@ -81,7 +47,6 @@ const Ubah = ({ oneData, params, dataSolusi }) => {
     formData.append("kode", form?.kode);
     formData.append("nama", form?.nama);
     formData.append("deskripsi", form?.deskripsi);
-    formData.append("solusi", form?.solusi);
     formData.append("foto", form?.foto);
 
     const response = await update(params?.id, formData);
@@ -103,51 +68,11 @@ const Ubah = ({ oneData, params, dataSolusi }) => {
 
   useEffect(() => {
     if (Object.keys(oneData).length > 0) {
-      // START: Solusi
-      let _tempIdSol = [];
-      let _idSolusi = [];
-      let updateForShowValueSolusi = [];
-
-      for (let index = 0; index < oneData?.solusi.length; index++) {
-        const element = oneData?.solusi[index];
-        _idSolusi.push(element?._id);
-      }
-
-      if (_idSolusi.length > 0) {
-        for (let index = 0; index < optionsSolusi.length; index++) {
-          const element = optionsSolusi[index];
-          for (let index2 = 0; index2 < _idSolusi.length; index2++) {
-            const element2 = _idSolusi[index2];
-            if (element?.value === element2) {
-              updateForShowValueSolusi.push({
-                label: element?.label,
-                value: element?.value,
-              });
-            }
-          }
-        }
-
-        if (updateForShowValueSolusi.length > 0) {
-          setShowValueSolusi(updateForShowValueSolusi);
-
-          for (
-            let index = 0;
-            index < updateForShowValueSolusi.length;
-            index++
-          ) {
-            const element = updateForShowValueSolusi[index];
-            _tempIdSol.push(element?.value);
-          }
-        }
-      }
-      // END: Solusi
-
       setForm({
         ...form,
         kode: oneData?.kode || "",
         nama: oneData?.nama || "",
         deskripsi: oneData?.deskripsi || "",
-        solusi: JSON.stringify(_tempIdSol) || "[]",
         imagePreview:
           oneData?.foto && oneData?.foto !== ""
             ? `${API_IMAGE}/${directory}/${oneData?.foto}`
@@ -237,20 +162,6 @@ const Ubah = ({ oneData, params, dataSolusi }) => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label
-                    htmlFor="solusi"
-                    className="block text-sm font-medium text-slate-400 mb-2"
-                  >
-                    Solusi
-                  </label>
-                  <MultiSelect
-                    options={optionsSolusi}
-                    value={showValueSolusi}
-                    onChange={(event) => handleMultipleSelectSolusi(event)}
-                    labelledBy="Pilih"
-                  />
-                </div>
-                <div className="mb-4">
                   {form?.imagePreview !== "" && (
                     <div className="flex justify-center mb-4">
                       <img
@@ -333,13 +244,11 @@ export async function getServerSideProps({ req, params }) {
     };
 
   const response = await getOne(params?.id, token);
-  const responseSolusi = await getForSelectSolusi(token);
 
   return {
     props: {
       params,
       oneData: response?.data?.data || {},
-      dataSolusi: responseSolusi?.data?.data || [],
     },
   };
 }

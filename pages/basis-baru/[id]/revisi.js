@@ -8,13 +8,13 @@ import { MultiSelect } from "react-multi-select-component";
 import Swal from "sweetalert2";
 import Content from "../../../components/Content";
 import Footer from "../../../components/Footer";
-import { getOne, update } from "../../../services/basis-kasus";
+import { getOne, revisi } from "../../../services/basis-baru";
 import { getForSelect as getForSelectHamaPenyakit } from "../../../services/hama-penyakit";
 import { getForSelect as getForSelectGejala } from "../../../services/gejala";
 import { getForSelect as getForSelectSolusi } from "../../../services/solusi";
 import Head from "next/head";
 
-const Ubah = ({
+const Revisi = ({
   oneData,
   params,
   dataHamaPenyakit,
@@ -30,13 +30,13 @@ const Ubah = ({
   });
 
   const handleSimpan = async () => {
-    const response = await update(params?.id, form);
+    const response = await revisi(params?.id, form);
     if (response?.data?.statusCode === 200) {
-      router.replace("/basis-kasus");
+      router.replace("/basis-baru");
       Swal.fire({
         icon: "success",
         title: "Sukses",
-        text: `${response?.data?.message || "Berhasil mengubah data!"}`,
+        text: `${response?.data?.message || "Berhasil melakukan revisi data!"}`,
       });
     } else {
       Swal.fire({
@@ -118,8 +118,8 @@ const Ubah = ({
       let _idGejala = [];
       let updateForShowValueGejala = [];
 
-      for (let index = 0; index < oneData?.gejala.length; index++) {
-        const element = oneData?.gejala[index];
+      for (let index = 0; index < oneData?.selectedGejala.length; index++) {
+        const element = oneData?.selectedGejala[index];
         _idGejala.push(element?._id);
       }
 
@@ -157,8 +157,8 @@ const Ubah = ({
       let _idSolusi = [];
       let updateForShowValueSolusi = [];
 
-      for (let index = 0; index < oneData?.solusi.length; index++) {
-        const element = oneData?.solusi[index];
+      for (let index = 0; index < oneData?.detailSolusi.length; index++) {
+        const element = oneData?.detailSolusi[index];
         _idSolusi.push(element?._id);
       }
 
@@ -204,14 +204,14 @@ const Ubah = ({
     <>
       <Head>
         <title>
-          Ubah Basis Kasus - Sistem Pakar Identifikasi Tanaman Kakao Menggunakan
-          Metode CBR dan KNN
+          Revisi Basis Baru - Sistem Pakar Identifikasi Tanaman Kakao
+          Menggunakan Metode CBR dan KNN
         </title>
       </Head>
       <Content>
         <div className="container pb-6">
           <div className="w-full max-w-full px-3 mx-auto mt-0 md:flex-0 shrink-0">
-            <Link href="/basis-kasus">
+            <Link href="/basis-baru">
               <button type="button" className="my-4 mx-2 space-x-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -238,8 +238,9 @@ const Ubah = ({
                     Hama & Penyakit
                   </label>
                   <select
+                    disabled={true}
                     name="hamaPenyakit"
-                    className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                    className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow cursor-not-allowed"
                     onChange={(event) =>
                       setForm({ ...form, hamaPenyakit: event.target.value })
                     }
@@ -248,7 +249,7 @@ const Ubah = ({
                     {dataHamaPenyakit.length > 0 &&
                       dataHamaPenyakit.map((value, index) =>
                         value?._id.toString() ===
-                        oneData?.hamaPenyakit?._id.toString() ? (
+                        oneData?.detailPenyakit[0]?._id.toString() ? (
                           <option
                             selected={true}
                             key={index}
@@ -298,7 +299,7 @@ const Ubah = ({
                     type="button"
                     className="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white"
                   >
-                    Ubah
+                    Revisi
                   </button>
                 </div>
               </div>
@@ -311,7 +312,7 @@ const Ubah = ({
   );
 };
 
-export default Ubah;
+export default Revisi;
 
 export async function getServerSideProps({ req, params }) {
   const { token } = req.cookies;

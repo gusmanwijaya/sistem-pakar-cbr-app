@@ -120,7 +120,7 @@ const Ubah = ({ oneData, params }) => {
                   <input
                     type={"number"}
                     min={1}
-                    max={5}
+                    max={3}
                     name="bobot"
                     className="text-size-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
                     onChange={(event) =>
@@ -129,7 +129,7 @@ const Ubah = ({ oneData, params }) => {
                     value={form?.bobot}
                   />
                   <span className="text-xs text-slate-500">
-                    *Masukkan nilai bobot antara 1-5, semakin besar nilai bobot
+                    *Masukkan nilai bobot antara 1-3, semakin besar nilai bobot
                     maka semakin besar pengaruh gejala terhadap penyakit.
                   </span>
                 </div>
