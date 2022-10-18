@@ -76,10 +76,14 @@ const RiwayatIdentifikasiDetail = ({ payload, users }) => {
                   </>
                 ))}
               </span>{" "}
-              Dengan nilai analisa sebesar :{" "}
-              <span className="font-bold uppercase">
-                {payload?.processData[0]?.similarityPersen}
-              </span>
+              {payload?.processData[0]?.similarity > 0.5 && (
+                <p className="mt-3">
+                  Dengan nilai analisa sebesar :{" "}
+                  <span className="font-bold uppercase">
+                    {payload?.processData[0]?.similarityPersen}
+                  </span>
+                </p>
+              )}
             </div>
             <div className="mt-2 mb-4 text-sm text-blue-900">
               {payload?.detailPenyakit?.map((valueDetailPenyakit) => (

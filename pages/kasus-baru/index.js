@@ -139,7 +139,7 @@ const KasusBaru = () => {
                             {allData.map((value, index) => (
                               <tr key={index}>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
-                                  <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
+                                  <div className="mb-0 font-semibold leading-tight text-size-xs px-4">
                                     {value?.detailPenyakit.length > 0
                                       ? value?.detailPenyakit?.map(
                                           (result, indexPenyakit) => (
@@ -149,7 +149,7 @@ const KasusBaru = () => {
                                           )
                                         )
                                       : "-"}
-                                  </p>
+                                  </div>
                                 </td>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <div className="mb-0 font-semibold leading-tight text-size-xs px-4">
