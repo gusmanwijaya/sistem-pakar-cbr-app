@@ -83,25 +83,6 @@ const Detail = ({ oneData }) => {
                 <p className="mt-4 text-justify">{oneData?.deskripsi || "-"}</p>
               </div>
             </div>
-
-            <div>
-              <h2 className="text-lg text-slate-700 mt-4 font-normal">
-                Solusi :
-              </h2>
-            </div>
-            <div className="max-w-4xl px-20 mx-auto text-base text-slate-700">
-              <div>
-                {oneData?.solusi.length > 0 ? (
-                  oneData?.solusi.map((value, index) => (
-                    <p key={index}>
-                      ({value?.kode}) {value?.solusi}
-                    </p>
-                  ))
-                ) : (
-                  <p className="mt-4 text-justify">-</p>
-                )}
-              </div>
-            </div>
           </div>
           <Footer auth={false} />
         </div>
