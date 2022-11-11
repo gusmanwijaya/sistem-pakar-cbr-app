@@ -17,6 +17,7 @@ const HasilIdentifikasi = ({ users }) => {
     processData: [],
     detailPenyakit: [],
     detailSolusi: [],
+    responseHasil: [],
   });
   const [toggleHasilPerhitungan, setToggleHasilPerhitungan] = useState(false);
   const API_IMAGE = process.env.NEXT_PUBLIC_API_IMAGE;
@@ -35,6 +36,7 @@ const HasilIdentifikasi = ({ users }) => {
         processData: dataLocal?.processData,
         detailPenyakit: dataLocal?.detailPenyakit,
         detailSolusi: dataLocal?.detailSolusi,
+        responseHasil: dataLocal?.responseHasil,
       });
     }
   }, [payload]);
@@ -96,11 +98,11 @@ const HasilIdentifikasi = ({ users }) => {
               <div className="mt-2 mb-4 text-sm text-blue-900">
                 Menurut hasil analisa, Anda terserang : <br />{" "}
                 <span className="font-bold uppercase">
-                  {payload?.detailPenyakit?.map((value) => (
-                    <>
+                  {payload?.detailPenyakit?.map((value, index) => (
+                    <div key={index}>
                       - {value?.nama}
                       <br />
-                    </>
+                    </div>
                   ))}
                 </span>{" "}
                 {payload?.processData[0]?.similarity > 0.5 && (
@@ -113,8 +115,8 @@ const HasilIdentifikasi = ({ users }) => {
                 )}
               </div>
               <div className="mt-2 mb-4 text-sm text-blue-900">
-                {payload?.detailPenyakit?.map((valueDetailPenyakit) => (
-                  <>
+                {payload?.detailPenyakit?.map((valueDetailPenyakit, index) => (
+                  <div key={index}>
                     {valueDetailPenyakit?.foto && (
                       <div>
                         Gambar dari{" "}
@@ -128,20 +130,33 @@ const HasilIdentifikasi = ({ users }) => {
                         />
                       </div>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
 
               <div className="mt-2 mb-4 text-sm text-blue-900">
-                Solusi adalah sebagai berikut : <br />
-                {payload?.detailSolusi?.map((valueDetailSolusi, index) => (
-                  <div key={index}>
-                    <span className="font-bold uppercase">
-                      {index + 1}. {valueDetailSolusi?.solusi}
-                      <br />
-                    </span>
-                  </div>
-                ))}
+                {payload?.responseHasil?.map(
+                  (valueResponseHasil, indexResponse) => (
+                    <div key={indexResponse}>
+                      Solusi{" "}
+                      <span className="font-bold uppercase">
+                        {valueResponseHasil?.hamaPenyakit?.nama}
+                      </span>{" "}
+                      : <br />
+                      <div>
+                        {valueResponseHasil?.solusi?.map(
+                          (valueSolusi, index) => (
+                            <span key={index} className="font-bold uppercase">
+                              {index + 1}. {valueSolusi?.kode} -{" "}
+                              {valueSolusi?.solusi}
+                              <br />
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
 
               <div className="flex justify-between">

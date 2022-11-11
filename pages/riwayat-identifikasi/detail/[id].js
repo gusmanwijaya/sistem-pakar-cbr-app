@@ -69,11 +69,11 @@ const RiwayatIdentifikasiDetail = ({ payload, users }) => {
             <div className="mt-2 mb-4 text-sm text-blue-900">
               Menurut hasil analisa, Anda terserang : <br />{" "}
               <span className="font-bold uppercase">
-                {payload?.detailPenyakit?.map((value) => (
-                  <>
+                {payload?.detailPenyakit?.map((value, index) => (
+                  <div key={index}>
                     - {value?.nama}
                     <br />
-                  </>
+                  </div>
                 ))}
               </span>{" "}
               {payload?.processData[0]?.similarity > 0.5 && (
@@ -86,8 +86,8 @@ const RiwayatIdentifikasiDetail = ({ payload, users }) => {
               )}
             </div>
             <div className="mt-2 mb-4 text-sm text-blue-900">
-              {payload?.detailPenyakit?.map((valueDetailPenyakit) => (
-                <>
+              {payload?.detailPenyakit?.map((valueDetailPenyakit, index) => (
+                <div key={index}>
                   {valueDetailPenyakit?.foto && (
                     <div>
                       Gambar dari{" "}
@@ -101,20 +101,31 @@ const RiwayatIdentifikasiDetail = ({ payload, users }) => {
                       />
                     </div>
                   )}
-                </>
+                </div>
               ))}
             </div>
 
             <div className="mt-2 mb-4 text-sm text-blue-900">
-              Solusi adalah sebagai berikut : <br />
-              {payload?.detailSolusi?.map((valueDetailSolusi, index) => (
-                <div key={index}>
-                  <span className="font-bold uppercase">
-                    {index + 1}. {valueDetailSolusi?.solusi}
-                    <br />
-                  </span>
-                </div>
-              ))}
+              {payload?.responseHasil?.map(
+                (valueResponseHasil, indexResponse) => (
+                  <div key={indexResponse}>
+                    Solusi{" "}
+                    <span className="font-bold uppercase">
+                      {valueResponseHasil?.hamaPenyakit?.nama}
+                    </span>{" "}
+                    : <br />
+                    <div>
+                      {valueResponseHasil?.solusi?.map((valueSolusi, index) => (
+                        <span key={index} className="font-bold uppercase">
+                          {index + 1}. {valueSolusi?.kode} -{" "}
+                          {valueSolusi?.solusi}
+                          <br />
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <div className="flex justify-end">
               <p className="text-sm italic text-slate-400">{payload?.date}</p>
