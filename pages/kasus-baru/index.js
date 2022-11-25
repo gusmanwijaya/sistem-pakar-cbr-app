@@ -127,6 +127,12 @@ const KasusBaru = () => {
                                 Solusi
                               </th>
                               <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                Tanggal
+                              </th>
+                              <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                Nilai (Similarity)
+                              </th>
+                              <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                 Pengguna
                               </th>
                               <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-slate-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -176,6 +182,17 @@ const KasusBaru = () => {
                                         )
                                       : "-"}
                                   </div>
+                                </td>
+                                <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
+                                  <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
+                                    {value?.date || "-"}
+                                  </p>
+                                </td>
+                                <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
+                                  <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
+                                    {value?.processData[0]?.similarityPersen ||
+                                      "-"}
+                                  </p>
                                 </td>
                                 <td className="p-2 align-top bg-transparent border-b shadow-transparent max-w-md">
                                   <p className="mb-0 font-semibold leading-tight text-size-xs px-4">
