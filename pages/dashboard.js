@@ -93,7 +93,10 @@ const Dashboard = ({ data, users }) => {
         <div className="w-full px-6 py-6 mx-auto">
           <div className="flex flex-wrap -mx-3">
             <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-              <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+              <div
+                className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border cursor-pointer"
+                onClick={() => router.replace("/hama-penyakit")}
+              >
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
                     <div className="flex-none w-2/3 max-w-full px-3">
@@ -117,7 +120,10 @@ const Dashboard = ({ data, users }) => {
               </div>
             </div>
 
-            <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+            <div
+              className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4 cursor-pointer"
+              onClick={() => router.replace("/gejala")}
+            >
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
@@ -141,7 +147,10 @@ const Dashboard = ({ data, users }) => {
               </div>
             </div>
 
-            <div className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+            <div
+              className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4 cursor-pointer"
+              onClick={() => router.replace("/solusi")}
+            >
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">
@@ -165,7 +174,10 @@ const Dashboard = ({ data, users }) => {
               </div>
             </div>
 
-            <div className="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
+            <div
+              className="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4 cursor-pointer"
+              onClick={() => router.replace("/basis-kasus")}
+            >
               <div className="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
                 <div className="flex-auto p-4">
                   <div className="flex flex-row -mx-3">

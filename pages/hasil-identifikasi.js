@@ -146,7 +146,7 @@ const HasilIdentifikasi = ({ users }) => {
                       <div>
                         {valueResponseHasil?.solusi?.map(
                           (valueSolusi, index) => (
-                            <span key={index} className="font-bold uppercase">
+                            <span key={index} className="">
                               {index + 1}. {valueSolusi?.kode} -{" "}
                               {valueSolusi?.solusi}
                               <br />
